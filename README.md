@@ -9,7 +9,7 @@ yarn
 ```
 
 ```sh
-yarn dev 
+yarn dev # or yarn start
 ```
 
 ### DataType
@@ -25,6 +25,10 @@ const csv = [
 ]
 export default csv
 ```
+
+#### Put The Data
+
+Add folder into `src/data`
 
 #### Output File
 

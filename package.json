@@ -15,8 +15,8 @@
     "lint": "eslint src/**",
     "build": "babel --presets es2015 src -d lib",
     "prepublish": "npm run build",
-    "start": "node lib/",
-    "dev": "./node_modules/.bin/babel-node src/",
+    "start": "./node_modules/.bin/babel-node src/",
+    "start:lib": "node lib/",
     "test-cov": "babel-node ./node_modules/.bin/isparta cover _mocha",
     "test": "babel-node ./node_modules/.bin/_mocha"
   },
