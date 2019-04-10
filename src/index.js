@@ -2,12 +2,28 @@ import fs from 'fs';
 import path from 'path';
 import Worker from './Worker';
 
-const PATH = './src/data';
+const Path = Worker.SourcePath();
 
-const jobs = fs.readdirSync(PATH).map(p => {
-    return { path: p, files: fs.readdirSync(path.resolve(PATH, p)) }
-});
+// 取得來源資料夾所有結構與檔案
+// 資料夾結構範例：
+// 3 - ecg - a.json
+//         - b.json
+//   - emg - c.json
+//         - d.json
+// 4 - ecg - e.json
+// ...
+const Jobs = fs.readdirSync(Path)
+  .filter(p => p !== '.DS_Store')
+  .map(p => (
+    {
+      stage: p,
+      files: fs
+        .readdirSync(path.resolve(Path, p, 'ecg'))
+        .filter(file => file !== '.DS_Store' && String(file).includes('.json'))
+    }
+  ));
 
-jobs.forEach(job => {
-    job.files.forEach(file => new Worker(PATH, job.path, file).run())
-});
+// console.log(Jobs);
+
+// 批次處理每個資料夾內的所有檔案
+Jobs.forEach(job => job.files.map(file => new Worker(job.stage, file, 5).run()));

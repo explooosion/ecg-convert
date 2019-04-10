@@ -1,6 +1,6 @@
 # output
-out/*.dat
-out/*.json
+out/**/*.dat
+out/**/*.json
 
 src/data
 
