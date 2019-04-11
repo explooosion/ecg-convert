@@ -4,6 +4,10 @@
 
 以 Node.js 為後端，支援 `Windows`, `macOS`。
 
+1. [ecg-sensor](https://github.com/explooosion/ecg-sensor) - 接收設備資料之專案。
+2. [ecg-split](https://github.com/explooosion/ecg-split) - 將資料以指定分鐘數切割，用於計算 QRS 波。
+3. [ecg-convert](https://github.com/explooosion/ecg-convert) - 將資料轉換成純數值，用於 Matlab。
+
 ### 資料準備
 
 將欲轉換的資料夾放置於 `src/data` 裡面，資料夾為 [ecg-sensor](https://github.com/explooosion/ecg-sensor) 所產生的 `stage` 資料夾，可一次放入多個進行轉換。 
