@@ -1,12 +1,12 @@
 # ecg-sensor
 
-個人實驗專案，將[ecg-sensor](https://github.com/explooosion/ecg-sensor) 進行資料轉換，用於 Matlab。
+個人實驗專案，將 [ecg-sensor](https://github.com/explooosion/ecg-sensor) 進行資料轉換，用於 Matlab。
 
 以 Node.js 為後端，支援 `Windows`, `macOS`。
 
 ### 資料準備
 
-將資料夾放置於 `src/data` 裡面，資料夾為 [ecg-sensor](https://github.com/explooosion/ecg-sensor) 所產生的 `stage` 資料夾，可一次放入多個進行轉換。 
+將欲轉換的資料夾放置於 `src/data` 裡面，資料夾為 [ecg-sensor](https://github.com/explooosion/ecg-sensor) 所產生的 `stage` 資料夾，可一次放入多個進行轉換。 
 
 
 資料內容預期格式：
