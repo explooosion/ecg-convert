@@ -2,31 +2,38 @@ import fs from 'fs';
 import path from 'path';
 import moment from 'moment';
 
-class Worker {
+// 來源資料夾
+const SourcePath = './src/data';
 
-  constructor(pathName, parentPathName, fileName) {
-    // 來源母目錄 - ./src/data
-    this.pathName = pathName;
-    // 來源目錄名稱
-    this.parentPathName = parentPathName;
-    // 來源與輸出檔名(使用同一個名稱)
+class Worker {
+  constructor(stage, fileName, min = 5) {
+    // stage 資料夾名稱
+    this.stage = stage;
+    // 檔案名稱
     this.fileName = fileName;
+    // 切割單位時間
+    this.min = min;
     // 來源檔案(讀取用)
-    this.file = path.resolve(pathName, parentPathName, fileName);
+    this.sourceFile = path.resolve(SourcePath, stage, 'ecg', fileName);
     // 輸出資料夾
-    this.exportPath = path.resolve('./out', this.parentPathName);
+    this.exportPath = path.resolve('./out', this.stage, 'ecg');
     // 內容
     this.content = '';
   }
 
+  static SourcePath() {
+    return SourcePath;
+  }
+
+  // 開始工作
   run() {
-    // 開始讀檔
     this.read();
   }
 
+  // 開始讀檔
   read() {
     // 讀取檔案
-    const readStream = fs.createReadStream(this.file);
+    const readStream = fs.createReadStream(this.sourceFile);
 
     readStream.setEncoding('utf8');
 
@@ -35,57 +42,39 @@ class Worker {
     });
 
     readStream.on('end', () => {
-      this.parseDAT();
-      this.parseJSON();
-      console.log(`Files - ${this.fileName}`);
+      this.process();
+      console.log(`${this.stage} - ${this.fileName}`);
     });
   }
 
+  // 開始轉換成 DAT
+  process() {
+    let files = [];
+    try { files = JSON.parse(this.content); }
+    catch (e) { files = []; }
+
+    files = files.map(({ data }) => (data === null ? 0 : data) + '\r\n').join('');
+    this.write(files);
+  }
+
   /**
-   * 
-   * @param {string} extension 
+   * 寫檔案
+   * @param {string} files 檔案內容
    */
-  write(files = '', extension = '.js') {
+  write(files = '') {
     // 如果沒有輸出資料夾就建立
+    if (!fs.existsSync(path.resolve('./out', this.stage))) fs.mkdirSync(path.resolve('./out', this.stage));
     if (!fs.existsSync(this.exportPath)) fs.mkdirSync(this.exportPath);
 
-    const exportFile = `${this.fileName.replace('.js', '')}${extension}`;
+    const exportFile = `${this.fileName.replace('.json', '')}.dat`;
     // console.log('Writing file: ' + OUTPUT_FILE);
     const FILE = path.resolve(this.exportPath, exportFile);
     const writeStram = fs.createWriteStream(FILE);
+
     writeStram.write(files);
     writeStram.end();
   }
 
-  parseJSON() {
-    // console.log('Processing file.');
-    let files = this.content
-      .replace('const csv = ', '')
-      .replace('; export default csv;', '');
-
-    // Parse to JSON
-    try {
-      files = JSON.stringify(JSON.parse(files));
-      this.write(files, '.json');
-    } catch (e) {
-      console.log('error', e);
-    }
-  }
-
-  parseDAT() {
-    // console.log('Processing file.');
-    let files = this.content
-      .replace('const csv = ', '')
-      .replace('; export default csv;', '');
-
-    // Parse to JSON
-    try {
-      files = JSON.parse(files).map(({ data }) => (data === null ? 0 : data) + '\r\n').join('');
-      this.write(files, '.dat');
-    } catch (e) {
-      console.log('error', e);
-    }
-  }
 }
 
 export default Worker;
