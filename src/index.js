@@ -1,6 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import Worker from './Worker';
+import moment from 'moment';
+// import 'moment-timezone';
+
+// 毫秒轉換與差異用於 NN HRV 計算
+// const date1 = moment('2019-03-24T10:08:29.415').format('YYYYMMDDTHHmmss.SSS');
+// const date2 = moment('2019-03-24T10:08:30.341').format('YYYYMMDDTHHmmss.SSS');
+// const ndate = moment(date2).diff(date1);
+
 
 const Path = Worker.SourcePath();
 

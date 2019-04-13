@@ -53,7 +53,11 @@ class Worker {
     try { files = JSON.parse(this.content); }
     catch (e) { files = []; }
 
-    files = files.map(({ data }) => (data === null ? 0 : data) + '\r\n').join('');
+    files = files.map(({ data, time }) => {
+      // 需要轉格式，讓 Matlab 吃進去。
+      // time = moment(time).format('YYYYMMDDTHHmmss.SSS');
+      return (data === null ? 0 : data + ' ' + time) + '\r\n';
+    }).join('');
     this.write(files);
   }
 
