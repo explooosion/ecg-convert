@@ -54,8 +54,8 @@ class Worker {
     catch (e) { files = []; }
 
     files = files.map(({ data, time }) => {
-      // 需要轉格式，讓 Matlab 吃進去。
-      // time = moment(time).format('YYYYMMDDTHHmmss.SSS');
+      // 需要轉格式，讓 Matlab 吃進去
+      time = moment(time).format('YYYYMMDDTHHmmss.SSS');
       return (data === null ? 0 : data + ' ' + time) + '\r\n';
     }).join('');
     this.write(files);
