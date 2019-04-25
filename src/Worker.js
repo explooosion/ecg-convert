@@ -51,7 +51,7 @@ class Worker {
   process() {
     let files = [];
     try { files = JSON.parse(this.content); }
-    catch (e) { files = []; }
+    catch (e) { console.log(e); }
 
     files = files.map(({ data, time }) => {
       // 需要轉格式，讓 Matlab 吃進去
