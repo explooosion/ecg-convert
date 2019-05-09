@@ -9,6 +9,9 @@ import moment from 'moment';
 // const date2 = moment('2019-03-24T10:08:30.341').format('YYYYMMDDTHHmmss.SSS');
 // const ndate = moment(date2).diff(date1);
 
+// 如果要轉換 ECG 請輸入 ecg, 連同 Worker 的 target 一起修改
+// 如果要轉換 EMG 請輸入 emg, 連同 Worker 的 target 一起修改
+const Target = 'ecg';
 
 const Path = Worker.SourcePath();
 
@@ -26,7 +29,7 @@ const Jobs = fs.readdirSync(Path)
     {
       stage: p,
       files: fs
-        .readdirSync(path.resolve(Path, p, 'ecg'))
+        .readdirSync(path.resolve(Path, p, Target))
         .filter(file => file !== '.DS_Store' && String(file).includes('.json'))
     }
   ));
@@ -34,4 +37,4 @@ const Jobs = fs.readdirSync(Path)
 // console.log(Jobs);
 
 // 批次處理每個資料夾內的所有檔案
-Jobs.forEach(job => job.files.map(file => new Worker(job.stage, file, 5).run()));
+Jobs.forEach(job => job.files.map(file => new Worker(job.stage, file, 5, Target).run()));

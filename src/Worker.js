@@ -6,17 +6,19 @@ import moment from 'moment';
 const SourcePath = './src/data';
 
 class Worker {
-  constructor(stage, fileName, min = 5) {
+  constructor(stage, fileName, min = 5, target = 'ecg') {
+    // 目標資料夾，[ecg, emg], 預設 ecg
+    this.target = target;
     // stage 資料夾名稱
     this.stage = stage;
     // 檔案名稱
     this.fileName = fileName;
-    // 切割單位時間
+    // 切割單位時間, 預設五分鐘
     this.min = min;
     // 來源檔案(讀取用)
-    this.sourceFile = path.resolve(SourcePath, stage, 'ecg', fileName);
+    this.sourceFile = path.resolve(SourcePath, stage, this.target, fileName);
     // 輸出資料夾
-    this.exportPath = path.resolve('./out', this.stage, 'ecg');
+    this.exportPath = path.resolve('./out', this.stage, this.target);
     // 內容
     this.content = '';
   }
