@@ -11,7 +11,7 @@ import moment from 'moment';
 
 // 如果要轉換 ECG 請輸入 ecg, 連同 Worker 的 target 一起修改
 // 如果要轉換 EMG 請輸入 emg, 連同 Worker 的 target 一起修改
-const Target = 'ecg';
+const Target = 'emg';
 
 const Path = Worker.SourcePath();
 
